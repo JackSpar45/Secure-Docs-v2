@@ -279,16 +279,18 @@ app.post('/decrypt', authenticateToken, async (req, res) => {
       // Remove padding
       const decryptedBytesUnpadded = aesjs.padding.pkcs7.strip(decryptedBytes);
       
-      const downloadDir = path.join(require('os').homedir(), 'Downloads');
-      const downloadPath = path.join(downloadDir, file.filename);
+      const downloadDir = '/tmp';  // Use /tmp directory 
+      if (!fs.existsSync(downloadDir)) {
+          fs.mkdirSync(downloadDir, { recursive: true });
+      }
       
+      const downloadPath = path.join(downloadDir, file.filename);
       fs.writeFileSync(downloadPath, Buffer.from(decryptedBytesUnpadded));
 
-      res.download(downloadPath, file.filename, (err) => {
-        if(err){
-          console.log('Error downloading file:', err);
-        }
-      });
+      // Instead of res.download(), send the file content
+      res.setHeader('Content-Disposition', `attachment; filename="${file.filename}"`);
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.send(Buffer.from(decryptedBytesUnpadded));
 
   } catch (error) {
       console.error('Error decrypting file:', error);
