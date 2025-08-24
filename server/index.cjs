@@ -288,6 +288,12 @@ app.post('/decrypt', authenticateToken, async (req, res) => {
       fs.writeFileSync(downloadPath, Buffer.from(decryptedBytesUnpadded));
 
       // Instead of res.download(), send the file content
+      res.download(downloadPath, file.filename, (err) => {
+        if(err){
+          console.log('Error downloading file:', err);
+        }
+      });
+
       res.setHeader('Content-Disposition', `attachment; filename="${file.filename}"`);
       res.setHeader('Content-Type', 'application/octet-stream');
       res.send(Buffer.from(decryptedBytesUnpadded));
