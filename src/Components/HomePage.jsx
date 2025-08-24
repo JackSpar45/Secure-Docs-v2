@@ -141,7 +141,7 @@ const handleLogout = async () => {
 
             {/* Logo (centered on mobile) */}
             <div className='text-3xl lg:text-4xl text-blue-900 font-semibold flex flex-row items-center'>
-              <img src='/images/logo1.png' className='mr-2' width="50" height="40" alt="Logo" />
+              <img src='/images/logo1-removebg-preview.png' className='mr-2' width="50" height="40" alt="Logo" />
               Secure Docs
             </div>
 
