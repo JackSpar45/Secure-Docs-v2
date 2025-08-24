@@ -25,7 +25,7 @@ const port = 5000;
 app.use(bodyParser.json());
 app.use(cors(
   {
-    origin: 'http://localhost:5173', // frontend URL
+    origin: 'https://securedocsv2.vercel.app', // frontend URL
     credentials: true
   }
 ));
