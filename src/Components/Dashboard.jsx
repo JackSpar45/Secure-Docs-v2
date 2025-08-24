@@ -52,15 +52,27 @@ const Dashboard = ({ email, onLogout }) => {
     const handleDecrypt = async (file) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/decrypt`, {
-                email,
-                fileId: file._id, 
-            },
-        {
-            withCredentials: true
-        });
-            const decryptedData = response.data;
-            console.log('Decrypted file:', decryptedData);
-            alert('File decrypted successfully!');
+                    email,
+                    fileId: file._id, 
+                },
+                {
+                    withCredentials: true,
+                    responseType: 'blob'
+                }
+            );
+            // const decryptedData = response.data;
+            // console.log('Decrypted file:', decryptedData);
+            // alert('File decrypted successfully!');
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', file.filename); 
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            alert('File decrypted and download started!');
+            
         } catch (error) {
             console.error('Error decrypting file:', error);
             alert('File decryption failed.');
