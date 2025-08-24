@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'font-awesome/css/font-awesome.min.css';
 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Dashboard = ({ email, onLogout }) => {
     const [profile, setProfile] = useState({});
@@ -28,8 +29,7 @@ const Dashboard = ({ email, onLogout }) => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/profile', {
-                   // params: { email },
+                const response = await axios.get(`${API_BASE_URL}/profile`, {
                     withCredentials: true
                 });
                 setProfile(response.data);
@@ -51,7 +51,7 @@ const Dashboard = ({ email, onLogout }) => {
     // Decrypt file function
     const handleDecrypt = async (file) => {
         try {
-            const response = await axios.post('http://localhost:5000/decrypt', {
+            const response = await axios.post(`${API_BASE_URL}/decrypt`, {
                 email,
                 fileId: file._id, 
             },
@@ -73,7 +73,7 @@ const Dashboard = ({ email, onLogout }) => {
         if (!recipientEmail) return;
 
         try {
-            const response = await axios.post('http://localhost:5000/share', {
+            const response = await axios.post(`${API_BASE_URL}/share`, {
                 email,
                 recipientEmail,
                 fileId: file._id, 
@@ -109,7 +109,7 @@ const Dashboard = ({ email, onLogout }) => {
         setFiles(prevFiles => prevFiles.filter(f => f._id !== file._id));
 
         try {
-            await axios.post('http://localhost:5000/delete', {
+            await axios.post(`${API_BASE_URL}/delete`, {
                 email,
                 pinataId: file.pinataId,
                 }, {
@@ -160,7 +160,7 @@ const Dashboard = ({ email, onLogout }) => {
             formData.append('email', email);
 
             try {
-                const response = await axios.post('http://localhost:5000/upload', formData, {
+                const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
