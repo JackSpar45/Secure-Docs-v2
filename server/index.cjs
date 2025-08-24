@@ -132,7 +132,8 @@ app.post('/login', async (req, res) => {
 
       res.cookie('token', jwtToken, {
         httpOnly: true,
-        sameSite: 'strict',
+        secure: true,
+        sameSite: 'None',
         maxAge: 2 * 60 * 60 * 1000 // 2 hours
       });
       res.status(200).json({ message: 'Login successful'});
