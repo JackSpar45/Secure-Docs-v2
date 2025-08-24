@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "nodemon server/index.cjs"
+    "start": "node server/index.cjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
